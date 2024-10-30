@@ -14,11 +14,11 @@ namespace IlluviumTest.Services
         private string _stateFile;
         private readonly IOutputService _outputService;
 
-        public NFTService(string? StateFile, IOutputService outputService = null)
+        public NFTService(string? StateFile, IOutputService outputService)
         {
 
             _stateFile = StateFile ?? "nft_state.json";
-            _outputService = outputService;
+            _outputService = outputService ?? throw new ArgumentNullException(nameof(outputService), "OutputService cannot be null");
         }
 
         public void MintToken(string tokenId, string address)
