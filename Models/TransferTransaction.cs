@@ -10,6 +10,11 @@ namespace IlluviumTest.Models
     {
         public string From { get; set; }
         public string To { get; set; }
+
+        public TransferTransaction()
+        {
+            Type = "Transfer";
+        }
     }
 
 }

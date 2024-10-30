@@ -9,6 +9,11 @@ namespace IlluviumTest.Models
     public class MintTransaction : Transaction
     {
         public string Address { get; set; }
+
+        public MintTransaction()
+        {
+            Type = "Mint";
+        }
     }
 
 }

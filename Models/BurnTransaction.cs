@@ -8,6 +8,10 @@ namespace IlluviumTest.Models
 {
     public class BurnTransaction : Transaction
     {
-        // No additional properties needed for Burn at the minute, but still need a class to instantiate the entity
+        public BurnTransaction()
+        {
+            Type = "Burn";
+        }
+
     }
 }

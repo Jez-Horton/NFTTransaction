@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IlluviumTest": {
+      "commandName": "Project",
+      "commandLineArgs": "--"
+    }
+  }
+}

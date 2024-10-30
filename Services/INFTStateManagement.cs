@@ -9,7 +9,5 @@ namespace IlluviumTest.Services
     public interface IStateManagement
     {
         void ResetState();
-        void LoadState();
-        void SaveState();
     }
 }
