@@ -20,14 +20,16 @@ namespace IlluviumTest.Services
 
         public void MintToken(string tokenId, string address)
         {
+            ValidateTokenId(tokenId);
+            ValidateAddress(address);
+
             if (_context.NFTs.Any(n => n.TokenId == tokenId))
-            {
-                _outputService.Log($"Token {tokenId} already exists.");
-                return;
-            }
+                throw new InvalidOperationException($"Token {tokenId} already exists.");
 
             var nft = new NFT { TokenId = tokenId, OwnerAddress = address };
             var mintTransaction = new MintTransaction { TokenId = tokenId, Address = address };
+
+            mintTransaction.GenerateHash();
 
             _context.NFTs.Add(nft);
             _context.MintTransactions.Add(mintTransaction);
@@ -38,6 +40,8 @@ namespace IlluviumTest.Services
 
         public void BurnToken(string tokenId)
         {
+            ValidateTokenId(tokenId);
+
             var nft = _context.NFTs.SingleOrDefault(n => n.TokenId == tokenId);
             if (nft == null)
             {
@@ -46,6 +50,8 @@ namespace IlluviumTest.Services
             }
 
             var burnTransaction = new BurnTransaction { TokenId = tokenId };
+
+            burnTransaction.GenerateHash();
 
             _context.NFTs.Remove(nft);
             _context.BurnTransactions.Add(burnTransaction);
@@ -56,6 +62,10 @@ namespace IlluviumTest.Services
 
         public void TransferToken(string tokenId, string from, string to)
         {
+            ValidateTokenId(tokenId);
+            ValidateAddress(from);
+            ValidateAddress(to);
+
             var nft = _context.NFTs.SingleOrDefault(n => n.TokenId == tokenId && n.OwnerAddress == from);
             if (nft == null)
             {
@@ -64,6 +74,8 @@ namespace IlluviumTest.Services
             }
 
             var transferTransaction = new TransferTransaction { TokenId = tokenId, From = from, To = to };
+
+            transferTransaction.GenerateHash();
 
             nft.OwnerAddress = to;
             _context.TransferTransactions.Add(transferTransaction);
@@ -107,6 +119,30 @@ namespace IlluviumTest.Services
             _context.NFTs.RemoveRange(_context.NFTs);
             _context.SaveChanges();
             _outputService.Log("State has been reset.");
+        }
+
+        private void ValidateTokenId(string tokenId)
+        {
+            if (string.IsNullOrWhiteSpace(tokenId) || tokenId.Length != 42)
+                throw new ArgumentException("Invalid Token ID length.");
+
+            if (!tokenId.StartsWith("0x"))
+                throw new ArgumentException("Token ID must start with '0x'.");
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(tokenId.Substring(2), @"\A\b[0-9a-fA-F]+\b\Z"))
+                throw new ArgumentException("Token ID must be in hexadecimal format.");
+        }
+
+        private void ValidateAddress(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address) || address.Length != 42)
+                throw new ArgumentException("Invalid Address length.");
+
+            if (!address.StartsWith("0x"))
+                throw new ArgumentException("Address must start with '0x'.");
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(address.Substring(2), @"\A\b[0-9a-fA-F]+\b\Z"))
+                throw new ArgumentException("Address must be in hexadecimal format.");
         }
 
         public Dictionary<string, string> GetNFTs()

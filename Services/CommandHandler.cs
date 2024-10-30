@@ -2,6 +2,7 @@
 using System.IO;
 using IlluviumTest.Services;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 public class CommandHandler
 {
@@ -16,17 +17,67 @@ public class CommandHandler
 
     public void ExecuteCommand(string command, string argument)
     {
-        switch (command.ToLower())
+        try
         {
-            case "--read-inline":
-                ReadInline(argument);
-                break;
-            case "--read-file":
-                ReadFile(argument);
-                break;
-            default:
-                _outputService.Log("Unknown command.");
-                break;
+            switch (command.ToLower())
+            {
+                case "--read-inline":
+                    if (string.IsNullOrWhiteSpace(argument))
+                    {
+                        _outputService.Log("Inline JSON input required.");
+                        return;
+                    }
+                    ReadInline(argument);
+                    break;
+
+                case "--read-file":
+                    if (string.IsNullOrWhiteSpace(argument))
+                    {
+                        _outputService.Log("File path required.");
+                        return;
+                    }
+                    ReadFile(argument);
+                    break;
+
+                case "--nft":
+                    if (string.IsNullOrWhiteSpace(argument))
+                    {
+                        _outputService.Log("Token ID required.");
+                        return;
+                    }
+                    PrintNFTOwner(argument);
+                    break;
+
+                case "--wallet":
+                    if (string.IsNullOrWhiteSpace(argument))
+                    {
+                        _outputService.Log("Wallet address required.");
+                        return;
+                    }
+                    PrintWalletNFTs(argument);
+                    break;
+
+                case "--reset":
+                    ResetState();
+                    break;
+
+                default:
+                    _outputService.Log("Unknown command.");
+                    break;
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            _outputService.Log($"Input error: {ex.Message}");
+        }
+        catch (InvalidOperationException ex)
+        {
+            _outputService.Log($"Transaction error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            _outputService.Log($"An unexpected error occurred: {ex.Message}");
+            Log.Error(ex, "Unhandled exception in command execution.");
         }
     }
 
@@ -47,6 +98,22 @@ public class CommandHandler
         var jsonInput = File.ReadAllText(filePath);
         var transactions = ParseJsonInput(jsonInput);
         ProcessTransactions(transactions);
+    }
+
+    private void PrintNFTOwner(string tokenId)
+    {
+        _nftService.PrintNFTOwner(tokenId);
+    }
+
+    private void PrintWalletNFTs(string address)
+    {
+        _nftService.PrintWalletNFTs(address);
+    }
+
+    private void ResetState()
+    {
+        _nftService.ResetState();
+        _outputService.Log("State has been reset.");
     }
 
     private JArray ParseJsonInput(string jsonInput)
@@ -78,12 +145,15 @@ public class CommandHandler
                 case "Mint":
                     _nftService.MintToken(tokenId, address);
                     break;
+
                 case "Burn":
                     _nftService.BurnToken(tokenId);
                     break;
+
                 case "Transfer":
                     _nftService.TransferToken(tokenId, from, to);
                     break;
+
                 default:
                     _outputService.Log("Unsupported transaction type.");
                     break;
