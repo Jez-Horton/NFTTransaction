@@ -19,6 +19,30 @@ services:
       interval: 10s
       retries: 5
 
+  migrate:
+    build:
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=IlluviumTest;User=user;Password=password;SslMode=None
+    networks:
+      - app-network
+    entrypoint: ["dotnet", "ef", "database", "update"]
+    # This service runs migrations and exits
+
+  app:
+    build:
+      context: .
+    depends_on:
+      - migrate  # Ensures migrations run before app starts
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=IlluviumTest;User=user;Password=password;SslMode=None
+    networks:
+      - app-network
+    entrypoint: ["dotnet", "YourApp.dll"]
+
 volumes:
   db_data:
 

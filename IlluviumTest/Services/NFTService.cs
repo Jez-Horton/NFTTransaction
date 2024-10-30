@@ -32,7 +32,7 @@ namespace IlluviumTest.Services
             mintTransaction.GenerateHash();
 
             _context.NFTs.Add(nft);
-            _context.MintTransactions.Add(mintTransaction);
+            _context.Transactions.Add(mintTransaction);
             _context.SaveChanges();
 
             _outputService.Log($"Minted token {tokenId} to address {address}.");
@@ -54,7 +54,8 @@ namespace IlluviumTest.Services
             burnTransaction.GenerateHash();
 
             _context.NFTs.Remove(nft);
-            _context.BurnTransactions.Add(burnTransaction);
+
+            _context.Transactions.Add(burnTransaction);
             _context.SaveChanges();
 
             _outputService.Log($"Burned token {tokenId}.");
@@ -78,7 +79,8 @@ namespace IlluviumTest.Services
             transferTransaction.GenerateHash();
 
             nft.OwnerAddress = to;
-            _context.TransferTransactions.Add(transferTransaction);
+
+            _context.Transactions.Add(transferTransaction);
             _context.SaveChanges();
 
             _outputService.Log($"Transferred token {tokenId} from {from} to {to}.");
@@ -117,6 +119,7 @@ namespace IlluviumTest.Services
         public void ResetState()
         {
             _context.NFTs.RemoveRange(_context.NFTs);
+            _context.Transactions.RemoveRange(_context.Transactions);
             _context.SaveChanges();
             _outputService.Log("State has been reset.");
         }

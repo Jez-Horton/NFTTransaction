@@ -2,7 +2,7 @@
   "profiles": {
     "IlluviumTest": {
       "commandName": "Project",
-      "commandLineArgs": "--read-file \"test_transactions.json\"\r\n"
+      "commandLineArgs": "--read-file \"test_transactions.json\""
     }
   }
 }

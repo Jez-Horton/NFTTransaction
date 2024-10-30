@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IlluviumTest", "IlluviumTest.csproj", "{CE116EC0-04E2-45CC-BB5B-8D22973AFB23}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{27AA24F4-077B-46D2-87B5-055CD47C1491}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -13,9 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		test_transactions.json = test_transactions.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IlluviumTest", "IlluviumTest\IlluviumTest.csproj", "{C84D4EEA-D874-4599-8CD2-7EFDD2124215}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IlluviumTest.Test", "IlluviumTest.Test\IlluviumTest.Test.csproj", "{E2988676-591B-42F3-81CA-DB15D2DC528B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IlluviumTest.Test", "..\IlluviumTest.Test\IlluviumTest.Test.csproj", "{FD80A177-2850-4CE5-9207-FF8E69B9566E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +23,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C84D4EEA-D874-4599-8CD2-7EFDD2124215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C84D4EEA-D874-4599-8CD2-7EFDD2124215}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C84D4EEA-D874-4599-8CD2-7EFDD2124215}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C84D4EEA-D874-4599-8CD2-7EFDD2124215}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2988676-591B-42F3-81CA-DB15D2DC528B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2988676-591B-42F3-81CA-DB15D2DC528B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2988676-591B-42F3-81CA-DB15D2DC528B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2988676-591B-42F3-81CA-DB15D2DC528B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE116EC0-04E2-45CC-BB5B-8D22973AFB23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE116EC0-04E2-45CC-BB5B-8D22973AFB23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE116EC0-04E2-45CC-BB5B-8D22973AFB23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE116EC0-04E2-45CC-BB5B-8D22973AFB23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD80A177-2850-4CE5-9207-FF8E69B9566E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD80A177-2850-4CE5-9207-FF8E69B9566E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD80A177-2850-4CE5-9207-FF8E69B9566E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD80A177-2850-4CE5-9207-FF8E69B9566E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

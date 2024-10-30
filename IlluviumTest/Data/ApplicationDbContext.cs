@@ -21,9 +21,7 @@ namespace IlluviumTest.Data
         }
 
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<MintTransaction> MintTransactions { get; set; }
-        public DbSet<BurnTransaction> BurnTransactions { get; set; }
-        public DbSet<TransferTransaction> TransferTransactions { get; set; }
+
         public DbSet<NFT> NFTs { get; set; }
 
 
@@ -34,6 +32,10 @@ namespace IlluviumTest.Data
                 .HasValue<MintTransaction>("Mint")
                 .HasValue<BurnTransaction>("Burn")
                 .HasValue<TransferTransaction>("Transfer");
+
+            modelBuilder.Entity<MintTransaction>().Property(m => m.TokenId).IsRequired();
+            modelBuilder.Entity<BurnTransaction>().Property(b => b.TokenId).IsRequired();
+            modelBuilder.Entity<TransferTransaction>().Property(t => t.TokenId).IsRequired();
         }
     }
 
