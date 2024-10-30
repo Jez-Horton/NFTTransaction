@@ -9,6 +9,7 @@
       "IlluviumTest/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.10",
+          "Microsoft.EntityFrameworkCore.InMemory": "8.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.10",
           "Microsoft.Extensions.Configuration": "8.0.0",
@@ -16,6 +17,8 @@
           "Newtonsoft.Json": "13.0.3",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
           "Serilog": "4.1.0",
+          "Serilog.Extensions.Logging": "8.0.0",
+          "Serilog.Settings.Configuration": "8.0.4",
           "Serilog.Sinks.Console": "6.0.0",
           "Serilog.Sinks.File": "6.0.0"
         },
@@ -394,6 +397,17 @@
           }
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/8.0.10": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.10"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "assemblyVersion": "8.0.10.0",
+            "fileVersion": "8.0.1024.46708"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/8.0.10": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.10",
@@ -467,6 +481,17 @@
         },
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.Binder.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.23.53103"
           }
@@ -771,6 +796,31 @@
           "lib/net8.0/Serilog.dll": {
             "assemblyVersion": "4.1.0.0",
             "fileVersion": "4.1.0.0"
+          }
+        }
+      },
+      "Serilog.Extensions.Logging/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "8.0.1",
+          "Serilog": "4.1.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Extensions.Logging.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "Serilog.Settings.Configuration/8.0.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Binder": "8.0.0",
+          "Microsoft.Extensions.DependencyModel": "8.0.2",
+          "Serilog": "4.1.0"
+        },
+        "runtime": {
+          "lib/net8.0/Serilog.Settings.Configuration.dll": {
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.4.0"
           }
         }
       },
@@ -1177,6 +1227,13 @@
       "path": "microsoft.entityframeworkcore.design/8.0.10",
       "hashPath": "microsoft.entityframeworkcore.design.8.0.10.nupkg.sha512"
     },
+    "Microsoft.EntityFrameworkCore.InMemory/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TdtSEbBsMg8dFq5T1PiOv48w2oiiduNzaEf3Fa7tO2b3lTBFO1y1Dla6ihs628P53TowsScjLSG8g5ZEw6KN0Q==",
+      "path": "microsoft.entityframeworkcore.inmemory/8.0.10",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.8.0.10.nupkg.sha512"
+    },
     "Microsoft.EntityFrameworkCore.Relational/8.0.10": {
       "type": "package",
       "serviceable": true,
@@ -1225,6 +1282,13 @@
       "sha512": "sha512-3lE/iLSutpgX1CC0NOW70FJoGARRHbyKmG7dc0klnUZ9Dd9hS6N/POPWhKhMLCEuNN5nXEY5agmlFtH562vqhQ==",
       "path": "microsoft.extensions.configuration.abstractions/8.0.0",
       "hashPath": "microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Binder/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mBMoXLsr5s1y2zOHWmKsE9veDcx8h1x/c3rz4baEdQKTeDcmQAPNbB54Pi/lhFO3K431eEq6PFbMgLaa6PHFfA==",
+      "path": "microsoft.extensions.configuration.binder/8.0.0",
+      "hashPath": "microsoft.extensions.configuration.binder.8.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.FileExtensions/8.0.1": {
       "type": "package",
@@ -1428,6 +1492,20 @@
       "sha512": "sha512-u1aZI8HZ62LWlq5dZLFwm6jMax/sUwnWZSw5lkPsCt518cJBxFKoNmc7oSxe5aA5BgSkzy9rzwFGR/i/acnSPw==",
       "path": "serilog/4.1.0",
       "hashPath": "serilog.4.1.0.nupkg.sha512"
+    },
+    "Serilog.Extensions.Logging/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YEAMWu1UnWgf1c1KP85l1SgXGfiVo0Rz6x08pCiPOIBt2Qe18tcZLvdBUuV5o1QHvrs8FAry9wTIhgBRtjIlEg==",
+      "path": "serilog.extensions.logging/8.0.0",
+      "hashPath": "serilog.extensions.logging.8.0.0.nupkg.sha512"
+    },
+    "Serilog.Settings.Configuration/8.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pkxvq0umBKK8IKFJc1aV5S/HGRG/NIxJ6FV42KaTPLfDmBOAbBUB1m5gqqlGxzEa1MgDDWtQlWJdHTSxVWNx+Q==",
+      "path": "serilog.settings.configuration/8.0.4",
+      "hashPath": "serilog.settings.configuration.8.0.4.nupkg.sha512"
     },
     "Serilog.Sinks.Console/6.0.0": {
       "type": "package",

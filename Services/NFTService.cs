@@ -1,58 +1,62 @@
-﻿using Newtonsoft.Json;
+﻿using IlluviumTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using IlluviumTest.Data;
 
 namespace IlluviumTest.Services
 {
     public class NFTService : IOperations, IOwnership, IStateManagement
     {
-        private Dictionary<string, string> nftOwnership = new Dictionary<string, string>();
-        private string _stateFile;
+        private readonly ApplicationDbContext _context;
         private readonly IOutputService _outputService;
 
-        public NFTService(string? StateFile, IOutputService outputService)
+        public NFTService(ApplicationDbContext context, IOutputService outputService)
         {
-
-            _stateFile = StateFile ?? "nft_state.json";
+            _context = context ?? throw new ArgumentNullException(nameof(context), "ApplicationDbContext cannot be null");
             _outputService = outputService ?? throw new ArgumentNullException(nameof(outputService), "OutputService cannot be null");
         }
 
         public void MintToken(string tokenId, string address)
         {
-            if (!string.IsNullOrEmpty(tokenId) && !string.IsNullOrEmpty(address) && !nftOwnership.ContainsKey(tokenId))
+            if (!string.IsNullOrEmpty(tokenId) && !string.IsNullOrEmpty(address) && !_context.NFTs.Any(n => n.TokenId == tokenId))
             {
-                nftOwnership[tokenId] = address;
+                var nft = new NFT { TokenId = tokenId, OwnerAddress = address };
+                _context.NFTs.Add(nft);
+                _context.SaveChanges();
                 _outputService.Log($"Minted token {tokenId} to address {address}.");
             }
         }
 
         public void BurnToken(string tokenId)
         {
-            if (!string.IsNullOrEmpty(tokenId) && nftOwnership.ContainsKey(tokenId))
+            var nft = _context.NFTs.SingleOrDefault(n => n.TokenId == tokenId);
+            if (nft != null)
             {
-                nftOwnership.Remove(tokenId);
+                _context.NFTs.Remove(nft);
+                _context.SaveChanges();
                 _outputService.Log($"Burned token {tokenId}.");
             }
         }
 
         public void TransferToken(string tokenId, string from, string to)
         {
-            if (!string.IsNullOrEmpty(tokenId) && nftOwnership.ContainsKey(tokenId) && nftOwnership[tokenId] == from)
+            var nft = _context.NFTs.SingleOrDefault(n => n.TokenId == tokenId && n.OwnerAddress == from);
+            if (nft != null)
             {
-                nftOwnership[tokenId] = to;
+                nft.OwnerAddress = to;
+                _context.SaveChanges();
                 _outputService.Log($"Transferred token {tokenId} from {from} to {to}.");
             }
         }
 
         public void PrintNFTOwner(string tokenId)
         {
-            if (nftOwnership.ContainsKey(tokenId))
+            var nft = _context.NFTs.SingleOrDefault(n => n.TokenId == tokenId);
+            if (nft != null)
             {
-                _outputService.Log($"Token {tokenId} is owned by {nftOwnership[tokenId]}.");
+                _outputService.Log($"Token {tokenId} is owned by {nft.OwnerAddress}.");
             }
             else
             {
@@ -62,7 +66,11 @@ namespace IlluviumTest.Services
 
         public void PrintWalletNFTs(string address)
         {
-            var ownedNFTs = nftOwnership.Where(kvp => kvp.Value == address).Select(kvp => kvp.Key).ToList();
+            var ownedNFTs = _context.NFTs
+                .Where(n => n.OwnerAddress == address)
+                .Select(n => n.TokenId)
+                .ToList();
+
             if (ownedNFTs.Any())
             {
                 _outputService.Log($"Wallet {address} owns NFTs: {string.Join(", ", ownedNFTs)}");
@@ -75,29 +83,24 @@ namespace IlluviumTest.Services
 
         public void ResetState()
         {
-            nftOwnership.Clear();
-            SaveState();
+            _context.NFTs.RemoveRange(_context.NFTs);
+            _context.SaveChanges();
             _outputService.Log("State has been reset.");
         }
 
         public void LoadState()
         {
-            if (File.Exists(_stateFile))
-            {
-                var json = File.ReadAllText(_stateFile);
-                nftOwnership = JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
-            }
+            // With EF Core, loading is done via querying. No action required here for loading as all data is in the database.
         }
+
         public Dictionary<string, string> GetNFTs()
         {
-            return nftOwnership;
+            return _context.NFTs.ToDictionary(n => n.TokenId, n => n.OwnerAddress);
         }
 
         public void SaveState()
         {
-            var json = JsonConvert.SerializeObject(nftOwnership);
-            File.WriteAllText(_stateFile, json);
+            // With EF Core, saving is done automatically with each call to _context.SaveChanges().
         }
     }
-
 }

@@ -24,6 +24,8 @@ namespace IlluviumTest.Data
         public DbSet<MintTransaction> MintTransactions { get; set; }
         public DbSet<BurnTransaction> BurnTransactions { get; set; }
         public DbSet<TransferTransaction> TransferTransactions { get; set; }
+        public DbSet<NFT> NFTs { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
