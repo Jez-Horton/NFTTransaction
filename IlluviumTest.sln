@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{27AA24F4-077B-46D2-87B5-055CD47C1491}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		appsettings.json = appsettings.json
 		dockerfile = dockerfile
 	EndProjectSection
 EndProject

@@ -2,15 +2,30 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using IlluviumTest.Data;
 using IlluviumTest.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace NFTEventProcessor
 {
     class Program
     {
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                new MySqlServerVersion(new Version(8, 0, 23))));
+        }
+
         private static readonly string StateFile = "nft_state.json";
         private static NFTService _nftService;
 
