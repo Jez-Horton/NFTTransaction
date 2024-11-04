@@ -16,7 +16,9 @@ namespace NFTEventProcessor
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables()
                 .Build();
+            Console.WriteLine($"Resolved Connection String: {configuration.GetConnectionString("DefaultConnection")}");
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)

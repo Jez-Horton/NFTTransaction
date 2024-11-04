@@ -33,14 +33,18 @@ cd IlluviumTest
 To start the application, including the MySQL database and migration services, use:
 
 ```bash
-docker-compose up --build
+./build.sh
+```
+
+```powershell
+./build.ps1
 ```
 
 This command:
 
 - Builds the application Docker image.
 - Starts the MySQL database and waits for it to initialize.
-- Runs a migrate service to apply any pending database migrations. *(In progress) - While this isn't working, will need to run dotnet ef database update once the container has started*
+- Runs the migration scripts from IlluviumTest
 
 ## Configuration Details
 
